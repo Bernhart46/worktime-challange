@@ -1,11 +1,16 @@
 import moment from "moment";
 import { HRLine } from "../components/hr-line";
+import { GetDailyLogs } from "../hooks/getTimelogs";
 
 //1 óra legyen 50 pixel magas a grafikonon
 const hourHeight = 50;
 
 export function DailyView() {
   const date = moment().format("YYYY. MMMM DD:");
+
+  const logs = GetDailyLogs(
+    moment(date, "YYYY. MMMM DD:").format("YYYY-MM-DD")
+  );
 
   return (
     <section className="flex flex-wrap md:flex-nowrap gap-5 p-5 flex-1 mb-12 lg:mb-0 overflow-y-auto md:overflow-y-hidden ">
@@ -15,8 +20,11 @@ export function DailyView() {
         </h2>
         <HRLine slate="600" />
 
-        <div className="mb-2">
+        <div className="mb-2 relative">
           <section className="max-w-full text-center">{hourBlocks}</section>
+
+          {/* Listázza a logokat */}
+          <ListLogs logs={logs} />
         </div>
       </section>
 
@@ -36,3 +44,38 @@ const hourBlocks = Array.from({ length: 24 }, (_, index) => (
     </div>
   </div>
 ));
+
+function ListLogs({ logs }) {
+  return (
+    <section className="absolute top-0 w-full">
+      {logs.map((log, index) => {
+        const startingHour = moment(log.startingTime, "HH:mm").hour();
+        const startingMinute = moment(log.startingTime, "HH:mm").minute();
+        const endingHour = moment(log.endingTime, "HH:mm").hour();
+        const engingMinute = moment(log.endingTime, "HH:mm").minute();
+
+        const top =
+          hourHeight * startingHour +
+          startingHour +
+          (hourHeight / 60) * startingMinute;
+
+        const height =
+          endingHour * 50 - top + endingHour + (hourHeight / 60) * engingMinute;
+
+        return (
+          <div
+            key={index}
+            className="absolute bg-red-300 left-[70px] rounded-md"
+            style={{
+              top: `${top}px`,
+              height: `${height}px`,
+              width: "calc(100% - 68px)",
+            }}
+          >
+            {log.description}
+          </div>
+        );
+      })}
+    </section>
+  );
+}
