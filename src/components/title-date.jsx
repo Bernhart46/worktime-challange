@@ -1,4 +1,5 @@
 import moment from "moment";
+import { HRLine } from "./hr-line";
 
 export function TitleDate() {
   const date = moment().format("YYYY. MMMM DD.");
@@ -8,7 +9,7 @@ export function TitleDate() {
       <section className="text-slate-300 text-2xl font-bold p-5">
         {date.toString()}
       </section>
-      <hr className="border-slate-800" />
+      <HRLine slate="800" />
     </>
   );
 }
