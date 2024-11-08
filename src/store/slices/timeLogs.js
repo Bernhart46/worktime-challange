@@ -5,8 +5,8 @@ const initialState = [
     id: 0,
     description: "Időnyilvántartó app készítése",
     date: "2024-11-08",
-    startingTime: "10:30",
-    endingTime: "18:20",
+    startingTime: "11:53",
+    endingTime: "19:53",
     tags: ["project", "default"],
   },
 ];
