@@ -1,29 +1,58 @@
 import moment from "moment";
 import { HRLine } from "../components/hr-line";
 import { GetDailyLogs } from "../hooks/getTimelogs";
+import { useState } from "react";
+import { NewLogForm } from "../components/new-log-form";
 
 //1 óra legyen 50 pixel magas a grafikonon
 const hourHeight = 50;
 
 export function DailyView() {
-  const date = moment().format("YYYY. MMMM DD:");
+  const [date, setDate] = useState(() => {
+    return moment().format("YYYY-MM-DD");
+  });
 
-  const logs = GetDailyLogs(
-    moment(date, "YYYY. MMMM DD:").format("YYYY-MM-DD")
-  );
+  const logs = GetDailyLogs(date);
+
+  const increaseDay = () => {
+    setDate(moment(date).add(1, "days").format("YYYY-MM-DD"));
+  };
+
+  const decreaseDay = () => {
+    setDate(moment(date).subtract(1, "days").format("YYYY-MM-DD"));
+  };
 
   return (
     <section className="flex flex-wrap md:flex-nowrap gap-5 p-5 flex-1 mb-12 lg:mb-0 overflow-y-auto md:overflow-y-hidden ">
       <section className="max-w-4xl w-full bg-slate-500 rounded-md p-2 overflow-y-auto">
-        <h2 className="text-slate-200 font-bold text-lg p-3">
-          {date.toString()}
-        </h2>
+        <div
+          className="grid mb-2"
+          style={{
+            gridTemplateColumns: "8fr 1fr 1fr",
+          }}
+        >
+          <h2 className="text-slate-200 font-bold text-lg p-3">
+            {moment(date, "YYYY-MM-DD").format("YYYY. MMMM DD:").toString()}
+          </h2>
+
+          <div
+            className="text-slate-300 text-4xl flex justify-center rounded-md items-center hover:bg-slate-600 cursor-pointer select-none"
+            onClick={decreaseDay}
+          >
+            {"<"}
+          </div>
+          <div
+            className="text-slate-300 text-4xl flex justify-center rounded-md items-center hover:bg-slate-600 cursor-pointer select-none"
+            onClick={increaseDay}
+          >
+            {">"}
+          </div>
+        </div>
         <HRLine slate="600" />
 
         <div className="mb-2 relative">
           <section className="max-w-full text-center">{hourBlocks}</section>
 
-          {/* Listázza a logokat */}
           <ListLogs logs={logs} />
         </div>
       </section>
@@ -46,6 +75,9 @@ const hourBlocks = Array.from({ length: 24 }, (_, index) => (
 ));
 
 function ListLogs({ logs }) {
+  const [isShowed, setIsShowed] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
   return (
     <section className="absolute top-0 w-full">
       {logs.map((log, index) => {
@@ -65,17 +97,38 @@ function ListLogs({ logs }) {
         return (
           <div
             key={index}
-            className="absolute bg-red-300 left-[70px] rounded-md"
+            className="absolute bg-red-300 left-[74px] rounded-md p-4 grid justify-center items-end cursor-pointer gap-2 text-center"
             style={{
               top: `${top}px`,
               height: `${height}px`,
-              width: "calc(100% - 68px)",
+              width: "calc(100% - 76px)",
+            }}
+            onClick={() => {
+              setIsShowed(true);
+              setSelectedId(log.id);
             }}
           >
-            {log.description}
+            <h3>{log.description}</h3>
+            <div className="self-start flex flex-wrap gap-2 justify-center">
+              {log.tags.map((tag, index) => {
+                return (
+                  <span
+                    className="px-2 py-1 text-white bg-red-500 rounded-md mx-1"
+                    key={index}
+                  >
+                    {tag}
+                  </span>
+                );
+              })}
+            </div>
           </div>
         );
       })}
+      {isShowed ? (
+        <NewLogForm setIsShowed={setIsShowed} id={selectedId} />
+      ) : (
+        <></>
+      )}
     </section>
   );
 }
