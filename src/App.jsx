@@ -1,11 +1,14 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
+import { DesktopNavbar } from "./components/navbar/desktop-navbar.jsx";
+import { MobileNavbar } from "./components/navbar/mobile-navbar.jsx";
 
 function App() {
   return (
-    <main className="w-screen h-screen bg-gray-700">
-      <nav></nav>
-      <section className="content">
+    <main className="w-screen h-screen bg-gray-700 flex">
+      <DesktopNavbar />
+      <MobileNavbar />
+      <section className="content w-full">
         <Routes>
           <Route path="/" element={<Navigate to="/napi" />} />
           <Route path="/napi" element={<>Napi</>} />
