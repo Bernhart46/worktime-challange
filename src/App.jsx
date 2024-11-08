@@ -3,6 +3,9 @@ import "./App.css";
 import { DesktopNavbar } from "./components/navbar/desktop-navbar.jsx";
 import { MobileNavbar } from "./components/navbar/mobile-navbar.jsx";
 import { TitleDate } from "./components/title-date.jsx";
+import { DailyView } from "./views/daily.jsx";
+import { WeeklyView } from "./views/weekly.jsx";
+import { MonthlyView } from "./views/monthly.jsx";
 
 function App() {
   return (
@@ -13,9 +16,9 @@ function App() {
         <TitleDate />
         <Routes>
           <Route path="/" element={<Navigate to="/napi" />} />
-          <Route path="/napi" element={<>Napi</>} />
-          <Route path="/heti" element={<>Heti</>} />
-          <Route path="/havi" element={<>Havi</>} />
+          <Route path="/napi" element={<DailyView />} />
+          <Route path="/heti" element={<WeeklyView />} />
+          <Route path="/havi" element={<MonthlyView />} />
         </Routes>
       </section>
     </main>
