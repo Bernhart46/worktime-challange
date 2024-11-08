@@ -4,9 +4,6 @@
 
 @layer components {
   .activated {
-    @apply bg-slate-800 transition-all;
-  }
-  .active {
-    @apply activated;
+    @apply bg-slate-800 transition-all font-bold;
   }
 }
