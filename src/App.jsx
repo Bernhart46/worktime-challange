@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { DesktopNavbar } from "./components/navbar/desktop-navbar.jsx";
 import { MobileNavbar } from "./components/navbar/mobile-navbar.jsx";
+import { TitleDate } from "./components/title-date.jsx";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <DesktopNavbar />
       <MobileNavbar />
       <section className="content w-full">
+        <TitleDate />
         <Routes>
           <Route path="/" element={<Navigate to="/napi" />} />
           <Route path="/napi" element={<>Napi</>} />
