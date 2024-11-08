@@ -32,12 +32,12 @@ export function NewLogForm({ setIsShowed, id }) {
         onClick={() => setIsShowed(false)}
       ></div>
       <main
-        className="absolute top-[50%] left-[50%] w-[80%] h-[80%] lg:w-2/4 lg:h-4/5 bg-slate-600 max-w-[600px] max-h-800px rounded-md"
+        className="absolute top-[50%] left-[50%] w-full md:w-[80%] h-[80%] lg:w-2/4 lg:h-4/5 bg-slate-600 max-w-[600px] max-h-[650px] rounded-md"
         style={{
           transform: "translate(-50%, -50%)",
         }}
       >
-        <h1 className="text-center text-slate-200 text-2xl font-bold my-4">
+        <h1 className="text-center text-slate-200 text-2xl font-bold my-4 mt-7">
           Bejegyzés szerkesztő
         </h1>
         <form className="flex flex-col items-center">
@@ -102,7 +102,7 @@ export function NewLogForm({ setIsShowed, id }) {
               htmlFor="tags"
               className="text-slate-200 text-lg font-bold mt-2"
             >
-              Tag-ek
+              Tag-ek (vesszővel válaszd el!)
             </label>
             <input
               type="text"
@@ -112,28 +112,29 @@ export function NewLogForm({ setIsShowed, id }) {
               onChange={(e) => setTags(e.target.value)}
               value={tags}
             />
-          </div>
 
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(
-                editTimeLog({
-                  id,
-                  newData: {
-                    description,
-                    date,
-                    startingTime: startTime,
-                    endingTime: endTime,
-                    tags: tags.trim().split(","),
-                  },
-                })
-              );
-              setIsShowed(false);
-            }}
-          >
-            Szerkesztés
-          </button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(
+                  editTimeLog({
+                    id,
+                    newData: {
+                      description,
+                      date,
+                      startingTime: startTime,
+                      endingTime: endTime,
+                      tags: tags.trim().split(","),
+                    },
+                  })
+                );
+                setIsShowed(false);
+              }}
+              className="w-[90%] bg-slate-400 p-2 mt-16"
+            >
+              Szerkesztés
+            </button>
+          </div>
         </form>
       </main>
     </>,
