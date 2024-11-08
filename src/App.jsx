@@ -9,10 +9,10 @@ import { MonthlyView } from "./views/monthly.jsx";
 
 function App() {
   return (
-    <main className="w-screen h-screen bg-gray-700 flex">
+    <main className="w-screen h-screen bg-gray-700 flex overflow-hidden">
       <DesktopNavbar />
       <MobileNavbar />
-      <section className="content w-full">
+      <section className="w-full h-screen flex flex-col">
         <TitleDate />
         <Routes>
           <Route path="/" element={<Navigate to="/napi" />} />
